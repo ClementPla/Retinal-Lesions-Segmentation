@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Bokeh Plot</title>
+
+
+    <script crossorigin="anonymous" integrity="sha384-YF85VygJKMVnHE+lLv2AM93Vbstr0yo2TbIu5v8se5Rq3UQAUmcuh4aaJwNlpKwa"
+            src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+
+
+</head>
+
+
+<body>
+
+
+<div class="bk-root" data-root-id="18826" id="45ce0a08-6cb9-4b1a-be97-734a5f8ea7f7"></div>
+
+
+<script id="19408" type="application/json">
+    {
+        "bf3c2c6b-7b8d-4c30-b88a-9bd4d035635b": {
+            "defs": [],
+            "roots": {
+                "references": [
+                    {
+                        "attributes": {
+                            "below": [
+                                {
+                                    "id": "18836"
+                                }
+                            ],
+                            "center": [
+                                {
+                                    "id": "18838"
+                                },
+                                {
+                                    "id": "18842"
+                                }
+                            ],
+                            "height": 500,
+                            "left": [
+                                {
+                                    "id": "18839"
+                                }
+                            ],
+                            "renderers": [
+                                {
+                                    "id": "18848"
+                                }
+                            ],
+                            "title": {
+                                "id": "18827"
+                            },
+                            "toolbar": {
+                                "id": "18843"
+                            },
+                            "toolbar_location": null,
+                            "width": 1200,
+                            "x_range": {
+                                "id": "18825"
+                            },
+                            "x_scale": {
+                                "id": "18832"
+                            },
+                            "y_range": {
+                                "id": "18830"
+                            },
+                            "y_scale": {
+                                "id": "18834"
+                            }
+                        },
+                        "id": "18826",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "18824"
+                            }
+                        },
+                        "id": "18849",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "18836"
+                            },
+                            "grid_line_color": null,
+                            "ticker": null
+                        },
+                        "id": "18838",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "18832",
+                        "type": "CategoricalScale"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "18837",
+                        "type": "CategoricalTicker"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19271",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "text": "Model's Dice by lesion"
+                        },
+                        "id": "18827",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19265",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19272",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19267",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "18834",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19268",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "19267"
+                            },
+                            "major_label_policy": {
+                                "id": "19265"
+                            },
+                            "ticker": {
+                                "id": "18840"
+                            }
+                        },
+                        "id": "18839",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {
+                            "end": 3,
+                            "factors": [
+                                "Messidor-IDRID-Unet",
+                                "FGADR-Messidor-IDRID-Unet",
+                                "IDRID-Unet"
+                            ],
+                            "palette": [
+                                "#5e4fa2",
+                                "#3288bd",
+                                "#66c2a5",
+                                "#abdda4",
+                                "#e6f598",
+                                "#ffffbf",
+                                "#fee08b",
+                                "#fdae61",
+                                "#f46d43",
+                                "#d53e4f",
+                                "#9e0142"
+                            ],
+                            "start": 1
+                        },
+                        "id": "18844",
+                        "type": "CategoricalColorMapper"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "19270",
+                        "type": "CategoricalTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "factors": [
+                                [
+                                    "Cotton_Wool_Spot",
+                                    "Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Cotton_Wool_Spot",
+                                    "FGADR-Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Cotton_Wool_Spot",
+                                    "IDRID-Unet"
+                                ],
+                                [
+                                    "Exudates",
+                                    "Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Exudates",
+                                    "FGADR-Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Exudates",
+                                    "IDRID-Unet"
+                                ],
+                                [
+                                    "Hemorrhages",
+                                    "Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Hemorrhages",
+                                    "FGADR-Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Hemorrhages",
+                                    "IDRID-Unet"
+                                ],
+                                [
+                                    "Microaneurysms",
+                                    "Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Microaneurysms",
+                                    "FGADR-Messidor-IDRID-Unet"
+                                ],
+                                [
+                                    "Microaneurysms",
+                                    "IDRID-Unet"
+                                ]
+                            ],
+                            "range_padding": 0.1
+                        },
+                        "id": "18825",
+                        "type": "FactorRange"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "19270"
+                            },
+                            "major_label_orientation": 1,
+                            "major_label_policy": {
+                                "id": "19268"
+                            },
+                            "ticker": {
+                                "id": "18837"
+                            }
+                        },
+                        "id": "18836",
+                        "type": "CategoricalAxis"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "18839"
+                            },
+                            "dimension": 1,
+                            "ticker": null
+                        },
+                        "id": "18842",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "18840",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "active_multi": null
+                        },
+                        "id": "18843",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "18844"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "line_color": {
+                                "value": "white"
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "18847",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "18824"
+                            },
+                            "glyph": {
+                                "id": "18846"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "18847"
+                            },
+                            "view": {
+                                "id": "18849"
+                            }
+                        },
+                        "id": "18848",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {
+                            "data": {
+                                "counts": [
+                                    0.5341955423355103,
+                                    0.4140549302101135,
+                                    0.6269387602806091,
+                                    0.7484980225563049,
+                                    0.6390973925590515,
+                                    0.748324453830719,
+                                    0.4928783178329468,
+                                    0.449417382478714,
+                                    0.5405294299125671,
+                                    0.42333996295928955,
+                                    0.4311685562133789,
+                                    0.42887982726097107
+                                ],
+                                "x": [
+                                    [
+                                        "Cotton_Wool_Spot",
+                                        "Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Cotton_Wool_Spot",
+                                        "FGADR-Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Cotton_Wool_Spot",
+                                        "IDRID-Unet"
+                                    ],
+                                    [
+                                        "Exudates",
+                                        "Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Exudates",
+                                        "FGADR-Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Exudates",
+                                        "IDRID-Unet"
+                                    ],
+                                    [
+                                        "Hemorrhages",
+                                        "Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Hemorrhages",
+                                        "FGADR-Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Hemorrhages",
+                                        "IDRID-Unet"
+                                    ],
+                                    [
+                                        "Microaneurysms",
+                                        "Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Microaneurysms",
+                                        "FGADR-Messidor-IDRID-Unet"
+                                    ],
+                                    [
+                                        "Microaneurysms",
+                                        "IDRID-Unet"
+                                    ]
+                                ]
+                            },
+                            "selected": {
+                                "id": "19271"
+                            },
+                            "selection_policy": {
+                                "id": "19272"
+                            }
+                        },
+                        "id": "18824",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "18844"
+                                }
+                            },
+                            "line_color": {
+                                "value": "white"
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "18846",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {
+                            "end": 0.75,
+                            "start": 0
+                        },
+                        "id": "18830",
+                        "type": "Range1d"
+                    }
+                ],
+                "root_ids": [
+                    "18826"
+                ]
+            },
+            "title": "Bokeh Application",
+            "version": "2.3.1"
+        }
+    }
+</script>
+<script type="text/javascript">
+    (function () {
+        var fn = function () {
+            Bokeh.safely(function () {
+                (function (root) {
+                    function embed_document(root) {
+
+                        var docs_json = document.getElementById('19408').textContent;
+                        var render_items = [{
+                            "docid": "bf3c2c6b-7b8d-4c30-b88a-9bd4d035635b",
+                            "root_ids": ["18826"],
+                            "roots": {"18826": "45ce0a08-6cb9-4b1a-be97-734a5f8ea7f7"}
+                        }];
+                        root.Bokeh.embed.embed_items(docs_json, render_items);
+
+                    }
+
+                    if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                    } else {
+                        var attempts = 0;
+                        var timer = setInterval(function (root) {
+                            if (root.Bokeh !== undefined) {
+                                clearInterval(timer);
+                                embed_document(root);
+                            } else {
+                                attempts++;
+                                if (attempts > 100) {
+                                    clearInterval(timer);
+                                    console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                                }
+                            }
+                        }, 10, root)
+                    }
+                })(window);
+            });
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    })();
+</script>
+
+</body>
+
+</html>

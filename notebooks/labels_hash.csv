@@ -1,0 +1,17 @@
+name,id,path
+Non ROI,0,
+Vessels,1,Vessels/Vessels - Uncertain
+Optic disk,2,Normal/Disk
+Optic cup,3,Normal/Cup
+Macula,4,Normal/Macula
+Cotton Wool Spot,5,Bright/Cotton Wool Spots/
+Drusen,6,Bright/Drusen/
+Exudates,7,Bright/Exudates/
+Hemorrages,8,Red/Hemorrhages/
+Neovascularizations,9,Red/Neovascularization
+Preretinal hemorrhages,10,Red/Pre-retinal hemorrhage
+Subretinal hemorrhages,11,Red/Sub-retinal hemorrhage
+Microaneurysms,12,Red/Microaneurysms
+Uncertain-red,13,Red/Uncertain - Red
+Uncertain-bright,14,Bright/Uncertain - Bright/
+Retina,15,

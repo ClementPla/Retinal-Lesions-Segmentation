@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Bokeh Plot</title>
+
+
+    <script crossorigin="anonymous" integrity="sha384-YF85VygJKMVnHE+lLv2AM93Vbstr0yo2TbIu5v8se5Rq3UQAUmcuh4aaJwNlpKwa"
+            src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+
+
+</head>
+
+
+<body>
+
+
+<div class="bk-root" data-root-id="1594" id="ff33ccc4-f391-4d0f-9246-72e197b3a7c2"></div>
+
+
+<script id="1955" type="application/json">
+    {
+        "0eb90c6a-f747-422e-8974-d84a7fbe85bd": {
+            "defs": [],
+            "roots": {
+                "references": [
+                    {
+                        "attributes": {
+                            "active_multi": null,
+                            "tools": [
+                                {
+                                    "id": "1527"
+                                }
+                            ]
+                        },
+                        "id": "1528",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1558"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1561",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1518",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1625",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1602",
+                        "type": "CategoricalTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "text": "ROC, Hemorrhages"
+                        },
+                        "id": "1511",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {
+                            "text": "ROC, Exudates"
+                        },
+                        "id": "1567",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1617"
+                            },
+                            "major_label_policy": {
+                                "id": "1619"
+                            },
+                            "ticker": {
+                                "id": "1580"
+                            }
+                        },
+                        "id": "1579",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1626",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1608"
+                            },
+                            "major_label_orientation": 1,
+                            "major_label_policy": {
+                                "id": "1610"
+                            },
+                            "ticker": {
+                                "id": "1521"
+                            }
+                        },
+                        "id": "1520",
+                        "type": "CategoricalAxis"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1536"
+                            }
+                        },
+                        "id": "1563",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {
+                            "children": [
+                                {
+                                    "id": "1592"
+                                },
+                                {
+                                    "id": "1593"
+                                }
+                            ]
+                        },
+                        "id": "1594",
+                        "type": "Column"
+                    },
+                    {
+                        "attributes": {
+                            "start": 0
+                        },
+                        "id": "1514",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1502"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1505",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1521",
+                        "type": "CategoricalTicker"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1536"
+                            },
+                            "glyph": {
+                                "id": "1560"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1561"
+                            },
+                            "view": {
+                                "id": "1563"
+                            }
+                        },
+                        "id": "1562",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1577",
+                        "type": "CategoricalTicker"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "tooltips": "Hemorrhages score @counts"
+                        },
+                        "id": "1527",
+                        "type": "HoverTool"
+                    },
+                    {
+                        "attributes": {
+                            "data": {
+                                "counts": [
+                                    0.13793517649173737,
+                                    0.13122974336147308,
+                                    0.19297221302986145,
+                                    0.1301596462726593,
+                                    0.24201732873916626,
+                                    0.16866792738437653,
+                                    0.18073688447475433,
+                                    0.2521001100540161,
+                                    0.29055383801460266,
+                                    0.2113766372203827,
+                                    0.23311401903629303,
+                                    0.2540004253387451
+                                ],
+                                "x": [
+                                    [
+                                        "IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "HRNet"
+                                    ]
+                                ]
+                            },
+                            "selected": {
+                                "id": "1630"
+                            },
+                            "selection_policy": {
+                                "id": "1629"
+                            }
+                        },
+                        "id": "1564",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1480"
+                            }
+                        },
+                        "id": "1507",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {
+                            "below": [
+                                {
+                                    "id": "1576"
+                                }
+                            ],
+                            "center": [
+                                {
+                                    "id": "1578"
+                                },
+                                {
+                                    "id": "1582"
+                                }
+                            ],
+                            "height": 350,
+                            "left": [
+                                {
+                                    "id": "1579"
+                                }
+                            ],
+                            "renderers": [
+                                {
+                                    "id": "1590"
+                                }
+                            ],
+                            "title": {
+                                "id": "1567"
+                            },
+                            "toolbar": {
+                                "id": "1584"
+                            },
+                            "toolbar_location": null,
+                            "width": 500,
+                            "x_range": {
+                                "id": "1565"
+                            },
+                            "x_scale": {
+                                "id": "1572"
+                            },
+                            "y_range": {
+                                "id": "1570"
+                            },
+                            "y_scale": {
+                                "id": "1574"
+                            }
+                        },
+                        "id": "1566",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1480"
+                            },
+                            "glyph": {
+                                "id": "1504"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1505"
+                            },
+                            "view": {
+                                "id": "1507"
+                            }
+                        },
+                        "id": "1506",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1530"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.25
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1532",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1574",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {
+                            "factors": [
+                                [
+                                    "IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "HRNet"
+                                ]
+                            ],
+                            "range_padding": 0.1
+                        },
+                        "id": "1565",
+                        "type": "FactorRange"
+                    },
+                    {
+                        "attributes": {
+                            "start": 0
+                        },
+                        "id": "1570",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {
+                            "end": 12,
+                            "factors": [
+                                "DeepLabV3+",
+                                "HRNet",
+                                "Unet",
+                                "Unet-resnet101"
+                            ],
+                            "palette": [
+                                "#2b83ba",
+                                "#abdda4",
+                                "#ffffbf",
+                                "#fdae61",
+                                "#d7191c"
+                            ],
+                            "start": 1
+                        },
+                        "id": "1530",
+                        "type": "CategoricalColorMapper"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1620"
+                            },
+                            "major_label_orientation": 1,
+                            "major_label_policy": {
+                                "id": "1622"
+                            },
+                            "ticker": {
+                                "id": "1577"
+                            }
+                        },
+                        "id": "1576",
+                        "type": "CategoricalAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1516",
+                        "type": "CategoricalScale"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1617",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1572",
+                        "type": "CategoricalScale"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1530"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1533",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1524",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1576"
+                            },
+                            "grid_line_color": null,
+                            "ticker": null
+                        },
+                        "id": "1578",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "tooltips": "Microaneurysms score @counts"
+                        },
+                        "id": "1499",
+                        "type": "HoverTool"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1619",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1523"
+                            },
+                            "dimension": 1,
+                            "ticker": null
+                        },
+                        "id": "1526",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1620",
+                        "type": "CategoricalTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1579"
+                            },
+                            "dimension": 1,
+                            "ticker": null
+                        },
+                        "id": "1582",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "below": [
+                                {
+                                    "id": "1492"
+                                }
+                            ],
+                            "center": [
+                                {
+                                    "id": "1494"
+                                },
+                                {
+                                    "id": "1498"
+                                }
+                            ],
+                            "height": 350,
+                            "left": [
+                                {
+                                    "id": "1495"
+                                }
+                            ],
+                            "renderers": [
+                                {
+                                    "id": "1506"
+                                }
+                            ],
+                            "title": {
+                                "id": "1483"
+                            },
+                            "toolbar": {
+                                "id": "1500"
+                            },
+                            "toolbar_location": null,
+                            "width": 500,
+                            "x_range": {
+                                "id": "1481"
+                            },
+                            "x_scale": {
+                                "id": "1488"
+                            },
+                            "y_range": {
+                                "id": "1486"
+                            },
+                            "y_scale": {
+                                "id": "1490"
+                            }
+                        },
+                        "id": "1482",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1605",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1580",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1492"
+                            },
+                            "grid_line_color": null,
+                            "ticker": null
+                        },
+                        "id": "1494",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1599"
+                            },
+                            "major_label_policy": {
+                                "id": "1601"
+                            },
+                            "ticker": {
+                                "id": "1496"
+                            }
+                        },
+                        "id": "1495",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1622",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "text": "ROC, Microaneurysms"
+                        },
+                        "id": "1483",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {
+                            "data": {
+                                "counts": [
+                                    0.2662326395511627,
+                                    0.26958802342414856,
+                                    0.2962217926979065,
+                                    0.23793739080429077,
+                                    0.25004518032073975,
+                                    0.24523741006851196,
+                                    0.25399553775787354,
+                                    0.20789487659931183,
+                                    0.28327879309654236,
+                                    0.2561706304550171,
+                                    0.27542224526405334,
+                                    0.2666889727115631
+                                ],
+                                "x": [
+                                    [
+                                        "IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "HRNet"
+                                    ]
+                                ]
+                            },
+                            "selected": {
+                                "id": "1626"
+                            },
+                            "selection_policy": {
+                                "id": "1625"
+                            }
+                        },
+                        "id": "1508",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1607",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "active_multi": null,
+                            "tools": [
+                                {
+                                    "id": "1499"
+                                }
+                            ]
+                        },
+                        "id": "1500",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1496",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1608",
+                        "type": "CategoricalTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "tooltips": "Exudates score @counts"
+                        },
+                        "id": "1583",
+                        "type": "HoverTool"
+                    },
+                    {
+                        "attributes": {
+                            "active_multi": null,
+                            "tools": [
+                                {
+                                    "id": "1583"
+                                }
+                            ]
+                        },
+                        "id": "1584",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1610",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1605"
+                            },
+                            "major_label_policy": {
+                                "id": "1607"
+                            },
+                            "ticker": {
+                                "id": "1524"
+                            }
+                        },
+                        "id": "1523",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1627",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1602"
+                            },
+                            "major_label_orientation": 1,
+                            "major_label_policy": {
+                                "id": "1604"
+                            },
+                            "ticker": {
+                                "id": "1493"
+                            }
+                        },
+                        "id": "1492",
+                        "type": "CategoricalAxis"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1611"
+                            },
+                            "major_label_policy": {
+                                "id": "1613"
+                            },
+                            "ticker": {
+                                "id": "1552"
+                            }
+                        },
+                        "id": "1551",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1508"
+                            }
+                        },
+                        "id": "1535",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1628",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1520"
+                            },
+                            "grid_line_color": null,
+                            "ticker": null
+                        },
+                        "id": "1522",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1508"
+                            },
+                            "glyph": {
+                                "id": "1532"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1533"
+                            },
+                            "view": {
+                                "id": "1535"
+                            }
+                        },
+                        "id": "1534",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1502"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.25
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1504",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {
+                            "children": [
+                                {
+                                    "id": "1538"
+                                },
+                                {
+                                    "id": "1566"
+                                }
+                            ]
+                        },
+                        "id": "1593",
+                        "type": "Row"
+                    },
+                    {
+                        "attributes": {
+                            "end": 12,
+                            "factors": [
+                                "DeepLabV3+",
+                                "HRNet",
+                                "Unet",
+                                "Unet-resnet101"
+                            ],
+                            "palette": [
+                                "#2b83ba",
+                                "#abdda4",
+                                "#ffffbf",
+                                "#fdae61",
+                                "#d7191c"
+                            ],
+                            "start": 1
+                        },
+                        "id": "1558",
+                        "type": "CategoricalColorMapper"
+                    },
+                    {
+                        "attributes": {
+                            "data": {
+                                "counts": [
+                                    0.38176265358924866,
+                                    0.39297211170196533,
+                                    0.39485883712768555,
+                                    0.43910062313079834,
+                                    0.4485298693180084,
+                                    0.4115554988384247,
+                                    0.43793630599975586,
+                                    0.4242987334728241,
+                                    0.4536750912666321,
+                                    0.4418030083179474,
+                                    0.4574030935764313,
+                                    0.46226558089256287
+                                ],
+                                "x": [
+                                    [
+                                        "IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "HRNet"
+                                    ]
+                                ]
+                            },
+                            "selected": {
+                                "id": "1628"
+                            },
+                            "selection_policy": {
+                                "id": "1627"
+                            }
+                        },
+                        "id": "1536",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "start": 0
+                        },
+                        "id": "1542",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1604",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "below": [
+                                {
+                                    "id": "1520"
+                                }
+                            ],
+                            "center": [
+                                {
+                                    "id": "1522"
+                                },
+                                {
+                                    "id": "1526"
+                                }
+                            ],
+                            "height": 350,
+                            "left": [
+                                {
+                                    "id": "1523"
+                                }
+                            ],
+                            "renderers": [
+                                {
+                                    "id": "1534"
+                                }
+                            ],
+                            "title": {
+                                "id": "1511"
+                            },
+                            "toolbar": {
+                                "id": "1528"
+                            },
+                            "toolbar_location": null,
+                            "width": 500,
+                            "x_range": {
+                                "id": "1509"
+                            },
+                            "x_scale": {
+                                "id": "1516"
+                            },
+                            "y_range": {
+                                "id": "1514"
+                            },
+                            "y_scale": {
+                                "id": "1518"
+                            }
+                        },
+                        "id": "1510",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1558"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.25
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1560",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1623",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1546",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1614"
+                            },
+                            "major_label_orientation": 1,
+                            "major_label_policy": {
+                                "id": "1616"
+                            },
+                            "ticker": {
+                                "id": "1549"
+                            }
+                        },
+                        "id": "1548",
+                        "type": "CategoricalAxis"
+                    },
+                    {
+                        "attributes": {
+                            "text": "ROC, Cotton_Wool_Spot"
+                        },
+                        "id": "1539",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1549",
+                        "type": "CategoricalTicker"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1624",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "data": {
+                                "counts": [
+                                    0.36578479409217834,
+                                    0.3310055136680603,
+                                    0.38733163475990295,
+                                    0.3045996129512787,
+                                    0.4073387086391449,
+                                    0.3762882947921753,
+                                    0.42966315150260925,
+                                    0.44007548689842224,
+                                    0.45161309838294983,
+                                    0.44244712591171265,
+                                    0.43114274740219116,
+                                    0.44733303785324097
+                                ],
+                                "x": [
+                                    [
+                                        "IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "Messidor-IDRID",
+                                        "HRNet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "DeepLabV3+"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "Unet-resnet101"
+                                    ],
+                                    [
+                                        "FGADR-Messidor-IDRID",
+                                        "HRNet"
+                                    ]
+                                ]
+                            },
+                            "selected": {
+                                "id": "1624"
+                            },
+                            "selection_policy": {
+                                "id": "1623"
+                            }
+                        },
+                        "id": "1480",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "factors": [
+                                [
+                                    "IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "HRNet"
+                                ]
+                            ],
+                            "range_padding": 0.1
+                        },
+                        "id": "1537",
+                        "type": "FactorRange"
+                    },
+                    {
+                        "attributes": {
+                            "below": [
+                                {
+                                    "id": "1548"
+                                }
+                            ],
+                            "center": [
+                                {
+                                    "id": "1550"
+                                },
+                                {
+                                    "id": "1554"
+                                }
+                            ],
+                            "height": 350,
+                            "left": [
+                                {
+                                    "id": "1551"
+                                }
+                            ],
+                            "renderers": [
+                                {
+                                    "id": "1562"
+                                }
+                            ],
+                            "title": {
+                                "id": "1539"
+                            },
+                            "toolbar": {
+                                "id": "1556"
+                            },
+                            "toolbar_location": null,
+                            "width": 500,
+                            "x_range": {
+                                "id": "1537"
+                            },
+                            "x_scale": {
+                                "id": "1544"
+                            },
+                            "y_range": {
+                                "id": "1542"
+                            },
+                            "y_scale": {
+                                "id": "1546"
+                            }
+                        },
+                        "id": "1538",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1488",
+                        "type": "CategoricalScale"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1544",
+                        "type": "CategoricalScale"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1548"
+                            },
+                            "grid_line_color": null,
+                            "ticker": null
+                        },
+                        "id": "1550",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1490",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1495"
+                            },
+                            "dimension": 1,
+                            "ticker": null
+                        },
+                        "id": "1498",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "axis": {
+                                "id": "1551"
+                            },
+                            "dimension": 1,
+                            "ticker": null
+                        },
+                        "id": "1554",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "start": 0
+                        },
+                        "id": "1486",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1552",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "factors": [
+                                [
+                                    "IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "HRNet"
+                                ]
+                            ],
+                            "range_padding": 0.1
+                        },
+                        "id": "1481",
+                        "type": "FactorRange"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1586"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.25
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1588",
+                        "type": "VBar"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1611",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1493",
+                        "type": "CategoricalTicker"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "tooltips": "Cotton_Wool_Spot score @counts"
+                        },
+                        "id": "1555",
+                        "type": "HoverTool"
+                    },
+                    {
+                        "attributes": {
+                            "active_multi": null,
+                            "tools": [
+                                {
+                                    "id": "1555"
+                                }
+                            ]
+                        },
+                        "id": "1556",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1564"
+                            },
+                            "glyph": {
+                                "id": "1588"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1589"
+                            },
+                            "view": {
+                                "id": "1591"
+                            }
+                        },
+                        "id": "1590",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1613",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "factors": [
+                                [
+                                    "IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "Messidor-IDRID",
+                                    "HRNet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "DeepLabV3+"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "Unet-resnet101"
+                                ],
+                                [
+                                    "FGADR-Messidor-IDRID",
+                                    "HRNet"
+                                ]
+                            ],
+                            "range_padding": 0.1
+                        },
+                        "id": "1509",
+                        "type": "FactorRange"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1614",
+                        "type": "CategoricalTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "children": [
+                                {
+                                    "id": "1482"
+                                },
+                                {
+                                    "id": "1510"
+                                }
+                            ]
+                        },
+                        "id": "1592",
+                        "type": "Row"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1629",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {
+                            "end": 12,
+                            "factors": [
+                                "DeepLabV3+",
+                                "HRNet",
+                                "Unet",
+                                "Unet-resnet101"
+                            ],
+                            "palette": [
+                                "#2b83ba",
+                                "#abdda4",
+                                "#ffffbf",
+                                "#fdae61",
+                                "#d7191c"
+                            ],
+                            "start": 1
+                        },
+                        "id": "1502",
+                        "type": "CategoricalColorMapper"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1599",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1564"
+                            }
+                        },
+                        "id": "1591",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1616",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1630",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "end": 12,
+                            "factors": [
+                                "DeepLabV3+",
+                                "HRNet",
+                                "Unet",
+                                "Unet-resnet101"
+                            ],
+                            "palette": [
+                                "#2b83ba",
+                                "#abdda4",
+                                "#ffffbf",
+                                "#fdae61",
+                                "#d7191c"
+                            ],
+                            "start": 1
+                        },
+                        "id": "1586",
+                        "type": "CategoricalColorMapper"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1601",
+                        "type": "AllLabels"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "field": "x",
+                                "transform": {
+                                    "id": "1586"
+                                }
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "top": {
+                                "field": "counts"
+                            },
+                            "width": {
+                                "value": 0.9
+                            },
+                            "x": {
+                                "field": "x"
+                            }
+                        },
+                        "id": "1589",
+                        "type": "VBar"
+                    }
+                ],
+                "root_ids": [
+                    "1594"
+                ]
+            },
+            "title": "Bokeh Application",
+            "version": "2.3.1"
+        }
+    }
+</script>
+<script type="text/javascript">
+    (function () {
+        var fn = function () {
+            Bokeh.safely(function () {
+                (function (root) {
+                    function embed_document(root) {
+
+                        var docs_json = document.getElementById('1955').textContent;
+                        var render_items = [{
+                            "docid": "0eb90c6a-f747-422e-8974-d84a7fbe85bd",
+                            "root_ids": ["1594"],
+                            "roots": {"1594": "ff33ccc4-f391-4d0f-9246-72e197b3a7c2"}
+                        }];
+                        root.Bokeh.embed.embed_items(docs_json, render_items);
+
+                    }
+
+                    if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                    } else {
+                        var attempts = 0;
+                        var timer = setInterval(function (root) {
+                            if (root.Bokeh !== undefined) {
+                                clearInterval(timer);
+                                embed_document(root);
+                            } else {
+                                attempts++;
+                                if (attempts > 100) {
+                                    clearInterval(timer);
+                                    console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                                }
+                            }
+                        }, 10, root)
+                    }
+                })(window);
+            });
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    })();
+</script>
+
+</body>
+
+</html>
