@@ -1,7 +1,8 @@
 Dataset:
-  shape: [1024, 1024] # wxh
+  shape: [2048, 2048] # wxh
   ^keep_size_ratio: True
   ^recursive_loading: True
+  ^shuffle: True
   img_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/1. Original Images/a. Training Set/
   ^mask_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/a. Training Set/
   img_messidor_url: /home/tmp/clpla/data/messidor/original/img/images/
@@ -20,18 +21,20 @@ Dataset:
   ^mask_ddr_url: /home/tmp/clpla/data/segmentation/DDR/label/
 
 Manager:
-  experiment: FundusSegmentation_MultiDatasets
+  experiment: FundusSegmentation_Data_Augmentation
   run: Unet
   ^save_point: /usagers/clpla/Projects/runs
   ^gpu: 0
   ^max_saved_model: 1
-  ^num_workers: 8 # Workers used for parallel data loading
+  ^num_workers: 16 # Workers used for parallel data loading
   ^dist_backend: nccl
   ^seed: 1234
   ^tracking_uri: http://localhost:5010
   ^artifact_uri: sftp://clement@m3202-10.demdgi.polymtl.ca/home/clement/Documents/Clement/runs/server/artifact
   grad_scaling: False
   amp: False
+  ^experimental_dataloader: True
+
 
 Preprocessing:
   mean: [0.485, 0.456, 0.406]
@@ -44,8 +47,8 @@ Validation:
   ^log_interval: 50
 
 Training:
-  epochs: 250
-  batch_size: 64
+  iterations: 2000
+  batch_size: 48
   ignore_index: -100
   contrastive_pretraining: False
 
@@ -59,17 +62,16 @@ Loss:
       smooth: 0.5
 
 Optimizer:
-  solver: Adam
+  solver: AdamW
   params_solver*:
     lr: 0.01
-    weight_decay: 0.00001
+    weight_decay: 0.001
 
 Learning_rate_scheduler:
-  update_type: on_epoch
-  scheduler: CosineAnnealingLR
+  scheduler: ReduceLROnPlateau
   params_scheduler*:
-    eta_min: 0.00001
-    T_max: 250
+    mode: max
+    min_lr: 0.0000001
     verbose: True
 
 Network:

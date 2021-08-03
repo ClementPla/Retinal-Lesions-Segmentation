@@ -10,9 +10,9 @@ import torch
 import random
 
 
-class MultiClassSoftBinaryCrossEntropy(nn.Module):
+class MultiLabelSoftBinaryCrossEntropy(nn.Module):
     def __init__(self, smooth_factor=None):
-        super(MultiClassSoftBinaryCrossEntropy, self).__init__()
+        super(MultiLabelSoftBinaryCrossEntropy, self).__init__()
         self.smooth_factor = smooth_factor
         self.criterion = nn.BCEWithLogitsLoss()
 
@@ -27,7 +27,7 @@ class MultiClassSoftBinaryCrossEntropy(nn.Module):
         return sum([self.criterion(y_pred[:, i], soft_targets[:, i]) for i in range(C)])
 
 
-register_loss('MultiClassSoftBinaryCrossEntropy', MultiClassSoftBinaryCrossEntropy)
+register_loss('MultiLabelSoftBinaryCrossEntropy', MultiLabelSoftBinaryCrossEntropy)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -50,8 +50,6 @@ if __name__ == '__main__':
             config['Manager']['run'] = '%s-%s' % (run_name, m)
             config['Network']['architecture'] = m
             config['Loss']['type'] = l
-            experiment = RetinExp(config, id='f3f6339267024b57a93b08c32744e447',
-                                  DA_level=DA.COLOR, test_sets=Dataset.DDR|Dataset.IDRID|Dataset.RETINAL_LESIONS)
-            # experiment.set_tags(pretrained=False)
-            # experiment.set_tags(self_trained=True)
+            experiment = RetinExp(config,
+                                  DA_level=DA.COLOR, test_sets=Dataset.DDR | Dataset.IDRID | Dataset.RETINAL_LESIONS)
             experiment.eval()

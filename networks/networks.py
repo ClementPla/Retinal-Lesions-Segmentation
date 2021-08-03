@@ -1,8 +1,13 @@
 import segmentation_models_pytorch as smp
 from nntools.nnet.models import R2UNet, R2AttUNet, AttUNet, UNet, MultiTaskUnet, NestedUNet
+from .contrastive_unet import ContrastiveUnet
 
 
 def get_network(config):
+    if config['architecture'] == 'Contrastive_Unet':
+        network = ContrastiveUnet(classes=config['n_classes'],
+                                  encoder_weights='imagenet' if config['pretrained'] else None)
+
     if config['architecture'] == 'Original_Unet':
         network = UNet(output_ch=config['n_classes'])
 
@@ -44,7 +49,3 @@ def get_network(config):
                                     encoder_weights='imagenet' if config['pretrained'] else None)
     return network
 
-
-if __name__ == '__main__':
-    network = smp.Unet('resnet101', classes=128, encoder_weights='imagenet')
-    print(network)

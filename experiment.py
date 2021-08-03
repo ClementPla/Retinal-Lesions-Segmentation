@@ -13,23 +13,25 @@ from torchmetrics import AUC, BinnedPrecisionRecallCurve
 from constants import LESIONS_LABELS
 from networks import get_network
 from retinal_dataset.datasets_setup import add_operations_to_dataset, get_datasets_from_config
-from scripts.utils import DA, DA_FUNCTIONS, Dataset
+from scripts.contrastive_learning import ContrastiveLoss, contrastive_loss_from_batch
+from scripts.utils import DA, get_augmentation_functions, Dataset
 
 
 class RetinExp(SupervisedExperiment):
-    def __init__(self, config, id=None,
+    def __init__(self, config, run_id=None,
                  train_sets=Dataset.IDRID | Dataset.MESSIDOR | Dataset.FGADR,
                  test_sets=Dataset.IDRID | Dataset.RETINAL_LESIONS,
                  DA_level=(DA.COLOR | DA.GEOMETRIC),
-                 save_prediction=False):
+                 save_prediction=False, cache=False,
+                 contrastive_loss=ContrastiveLoss.SINGLE_IMAGE):
 
-        super(RetinExp, self).__init__(config, id)
+        super(RetinExp, self).__init__(config, run_id)
         self.set_model(get_network(config['Network']))
         d = get_datasets_from_config(self.c['Dataset'], sets=train_sets, seed=self.seed,
                                      split_ratio=self.c['Validation']['size'])
         # Return a dict with two keys (core and split)
 
-        aug_func = DA_FUNCTIONS[DA_level]
+        aug_func = get_augmentation_functions(DA_level)
         aug = A.Compose(aug_func)
         ops = [aug, A.Normalize(mean=self.c['Preprocessing']['mean'],
                                 std=self.c['Preprocessing']['std'],
@@ -42,6 +44,9 @@ class RetinExp(SupervisedExperiment):
         add_operations_to_dataset(d['split'], A.Normalize(mean=self.c['Preprocessing']['mean'],
                                                           std=self.c['Preprocessing']['std'],
                                                           always_apply=True))
+        if cache:
+            for dataset in d['core']:
+                dataset.cache()
         self.set_train_dataset(d['core'])
         self.set_valid_dataset(d['split'])
 
@@ -70,6 +75,63 @@ class RetinExp(SupervisedExperiment):
         self.save_prediction = save_prediction
         self.contrastive_pretrain = self.c['Training'].get('contrastive_pretraining', False)
         self.only_inference = False
+        if self.contrastive_pretrain:
+            self.contrastive_loss = contrastive_loss
+            self.log_params(Contrastive_loss=contrastive_loss.name)
+
+    def validate(self, model, valid_loader, iteration, rank=0, loss_function=None):
+        if self.contrastive_pretrain:
+            return None
+        model.eval()
+        gpu = self.get_gpu_from_rank(rank)
+        confMat = torch.zeros(self.n_classes, 2, 2).cuda(gpu)
+        losses = []
+        for n, batch in enumerate(valid_loader):
+            batch = self.batch_to_device(batch, rank)
+            img = batch['image']
+            gt = batch['mask']
+            proba = model(img)
+            losses.append(loss_function(proba, gt).item())
+            preds = torch.sigmoid(proba) >= 0.5
+            confMat += NNmetrics.confusion_matrix(preds, gt, num_classes=self.n_classes, multilabel=True)
+
+        if self.multi_gpu:
+            confMat = reduce_tensor(confMat, self.world_size, mode='sum')
+        confMat = NNmetrics.filter_index_cm(confMat, self.ignore_index)
+        mIoU = NNmetrics.mIoU_cm(confMat)
+        if self.is_main_process(rank):
+            stats = NNmetrics.report_cm(confMat)
+            stats['mIoU'] = mIoU
+            stats['Validation loss'] = np.mean(losses)
+            self.log_metrics(step=iteration, **stats)
+            if self.tracked_metric is None or mIoU >= self.tracked_metric:
+                self.tracked_metric = mIoU
+                filename = ('best_valid_iteration_%i_mIoU_%.3f' % (iteration, mIoU)).replace('.', '')
+                self.save_model(model, filename=filename)
+
+        model.train()
+        return mIoU
+
+    def forward_train(self, model, loss_function, batch, rank):
+        if self.contrastive_pretrain:
+            iteration = self.ctx_train['iteration']
+            if iteration <= 1:
+                for g in self.ctx_train['optimizer'].param_groups:
+                    g['lr'] = self.c['Contrastive_training']['lr']
+
+            if iteration > self.c['Contrastive_training']['training_step']:
+                # Ends the contrastive pretraining and jumps to the regular forward_train function
+                self.contrastive_pretrain = False
+                optimizer = self.partial_optimizer(model.get_trainable_parameters(self.c['Optimizer']['params_solver']['lr']))
+                self.ctx_train['optimizer'] = optimizer
+                lr_scheduler = self.partial_lr_scheduler(self.ctx_train['optimizer'])
+                self.ctx_train['lr_scheduler'] = lr_scheduler
+                model.activate_segmentation_mode()
+            else:
+                return contrastive_loss_from_batch(model, batch['image'], batch[self.gt_name], loss_type=self.contrastive_loss,
+                                                   **self.c['Contrastive_training'])
+        if not self.contrastive_pretrain:
+            return super(RetinExp, self).forward_train(model, loss_function, batch, rank)
 
     def end(self, model, rank):
         """
@@ -101,6 +163,7 @@ class RetinExp(SupervisedExperiment):
     def inference_n_eval(self, model, rank, dataset):
         gpu = self.get_gpu_from_rank(rank)
         test_loader, test_sampler = self.get_dataloader(dataset, shuffle=False, batch_size=1,
+                                                        persistent_workers=False,
                                                         rank=rank)
 
         suffix = dataset.tag.suffix
@@ -139,6 +202,7 @@ class RetinExp(SupervisedExperiment):
     def inference(self, model, rank, dataset):
         gpu = self.get_gpu_from_rank(rank)
         test_loader, test_sampler = self.get_dataloader(dataset, shuffle=False, batch_size=1,
+                                                        persistent_workers=False,
                                                         rank=rank)
         with torch.no_grad():
             for batch in tqdm.tqdm(test_loader, total=len(test_loader)):
@@ -159,57 +223,4 @@ class RetinExp(SupervisedExperiment):
                 out = (p.cpu().numpy() * 255).astype(np.uint8)
                 cv2.imwrite(os.path.join(folder, f), out)
 
-    def validate(self, model, valid_loader, iteration, rank=0, loss_function=None):
-        model.eval()
-        gpu = self.get_gpu_from_rank(rank)
-        confMat = torch.zeros(self.n_classes, 2, 2).cuda(gpu)
-        losses = []
-        for n, batch in enumerate(valid_loader):
-            batch = self.batch_to_device(batch, rank)
-            img = batch['image']
-            gt = batch['mask']
-            proba = model(img)
-            losses.append(loss_function(proba, gt).item())
-            preds = torch.sigmoid(proba) >= 0.5
-            confMat += NNmetrics.confusion_matrix(preds, gt, num_classes=self.n_classes, multilabel=True)
 
-        if self.multi_gpu:
-            confMat = reduce_tensor(confMat, self.world_size, mode='sum')
-        confMat = NNmetrics.filter_index_cm(confMat, self.ignore_index)
-        mIoU = NNmetrics.mIoU_cm(confMat)
-        if self.is_main_process(rank):
-            stats = NNmetrics.report_cm(confMat)
-            stats['mIoU'] = mIoU
-            stats['Validation loss'] = np.mean(losses)
-            self.log_metrics(step=iteration, **stats)
-            if self.tracked_metric is None or mIoU >= self.tracked_metric:
-                self.tracked_metric = mIoU
-                filename = ('best_valid_iteration_%i_mIoU_%.3f' % (iteration, mIoU)).replace('.', '')
-                self.save_model(model, filename=filename)
-
-        model.train()
-        return mIoU
-
-    def forward_train(self, model, loss_function, rank, batch):
-        if self.contrastive_pretrain:
-
-            iteration = self.ctx_train['iteration']
-            if iteration == 1:
-                for g in self.ctx['optimizer'].param_groups:
-                    g['lr'] = self.c['Contrastive_training']['lr']
-
-            if iteration > self.c['Contrastive_training']['training_step']:
-                self.contrastive_pretrain = False
-                for g in self.ctx['optimizer'].param_groups:
-                    g['lr'] = self.c['Optimizer']['params_solver']['lr']
-                # TODO: Find a way to reset the learning rate scheduler
-
-                model.activate_segmentation_mode()
-            else:
-                self.contrastive_training(model, rank, batch)
-        else:
-            return super(RetinExp, self).forward_train(model, loss_function, rank, batch)
-
-    def contrastive_training(self, model, rank, batch):
-        pass
-        # Todo Implement the contrastive training (within image and cross-image)

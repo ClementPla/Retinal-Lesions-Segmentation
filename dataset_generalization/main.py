@@ -18,47 +18,50 @@ if __name__ == '__main__':
 
     if not isinstance(models, list):
         models = [models]
-
+    cache = True
     for m in models:
         config['Network']['architecture'] = m
         train_set = Dataset.IDRID
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
         experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS|Dataset.IDRID|Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()
-
         train_set = Dataset.IDRID | Dataset.MESSIDOR
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config,
+        experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()
-
         train_set = Dataset.IDRID | Dataset.MESSIDOR | Dataset.FGADR
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config,
+        experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()
-
         train_set = Dataset.FGADR
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config,
+        experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()
 
         train_set = Dataset.MESSIDOR
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config,
+        experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()
 
-        train_set = Dataset.FGADR|Dataset.IDRID
+        train_set = Dataset.FGADR | Dataset.IDRID
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config,
+        experiment = RetinExp(config, DA_level=DA.COLOR,
                               train_sets=train_set,
-                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR)
+                              test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
+                              cache=cache)
         experiment.start()

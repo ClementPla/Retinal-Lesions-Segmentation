@@ -5,7 +5,6 @@ from experiment import RetinExp, DA, Dataset
 from nntools.utils import Config
 import argparse
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", help="Path to the configuration file")
@@ -16,7 +15,8 @@ if __name__ == '__main__':
     models = args.models
     config = Config(config_path)
 
-    DA_test = [DA.NONE, DA.COLOR, DA.GEOMETRIC, (DA.COLOR | DA.GEOMETRIC), DA.COLOR_V2]
+    DA_test = [DA.NONE]
+
     if not isinstance(models, list):
         models = [models]
 
@@ -24,6 +24,8 @@ if __name__ == '__main__':
         for d in DA_test:
             config['Manager']['run'] = '%s-DA: %s' % (m, d.name)
             config['Network']['architecture'] = m
-            experiment = RetinExp(config, train_sets=Dataset.IDRID|Dataset.MESSIDOR|Dataset.FGADR,
-                                  test_sets=Dataset.RETINAL_LESIONS|Dataset.IDRID|Dataset.RETINAL_LESIONS)
+            experiment = RetinExp(config, train_sets=Dataset.IDRID | Dataset.MESSIDOR,
+                                  DA_level=d,
+                                  test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR | Dataset.FGADR,
+                                  cache=True)
             experiment.start()
