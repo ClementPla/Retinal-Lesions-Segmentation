@@ -5,8 +5,8 @@ Dataset:
   ^mask_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/a. Training Set/
   img_messidor_url: /home/tmp/clpla/data/messidor/original/img/images/
   ^mask_messidor_url: /home/tmp/clpla/data/messidor/biomarkers/
-  img_kaggle_url: /home/tmp/clpla/data/eyepacs/
-  ^mask_kaggle_url: /home/tmp/clpla/data/segmentation/teacher_learning_eyepacs/
+  img_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/Original_Images/
+  ^mask_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/
   ^recursive_loading: True
 
 Test:
@@ -14,6 +14,10 @@ Test:
   ^mask_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/b. Testing Set/
   img_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/images_896x896/
   ^mask_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/segmentation/
+  img_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/1. Original Images/b. Testing Set/
+  ^mask_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/b. Testing Set/
+  img_ddr_url: /home/tmp/clpla/data/segmentation/DDR/image/
+  ^mask_ddr_url: /home/tmp/clpla/data/segmentation/DDR/label/
 
 Manager:
   experiment: FundusSegmentation_ContrastiveLearning
@@ -49,7 +53,7 @@ Contrastive_training:
   training_step: 5000
   lr: 0.1
   tau: 0.07
-  size: [64,64]
+  size: [64, 64]
 
 Loss:
   type: Dice

@@ -6,6 +6,7 @@ from nntools.nnet import Conv2d
 from copy import deepcopy
 from icecream import ic
 
+
 class ContrastiveUnet(AbstractNet):
     def __init__(self, classes=4, encoder_weights='imagenet', contrastive_features=128):
         super(ContrastiveUnet, self).__init__()
