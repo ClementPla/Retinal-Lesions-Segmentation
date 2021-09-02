@@ -1,0 +1,92 @@
+Dataset:
+  shape: [2048, 2048] # wxh
+  ^keep_size_ratio: True
+  ^recursive_loading: True
+  ^shuffle: True
+  img_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/1. Original Images/a. Training Set/
+  ^mask_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/a. Training Set/
+  img_messidor_url: /home/tmp/clpla/data/messidor/original/img/images/
+  ^mask_messidor_url: /home/tmp/clpla/data/messidor/biomarkers/
+  img_kaggle_url: /home/tmp/clpla/data/eyepacs/
+  ^mask_kaggle_url: /home/tmp/clpla/data/segmentation/teacher_learning_eyepacs/
+  img_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/Original_Images/
+  ^mask_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/
+  img_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/images_896x896/
+  ^mask_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/segmentation/
+
+^Test:
+  img_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/1. Original Images/b. Testing Set/
+  ^mask_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/2. All Segmentation Groundtruths/b. Testing Set/
+  img_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/images_896x896/
+  ^mask_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/segmentation/
+  img_ddr_url: /home/tmp/clpla/data/segmentation/DDR/image/
+  ^mask_ddr_url: /home/tmp/clpla/data/segmentation/DDR/label/
+  img_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/Original_Images/
+  ^mask_fgadr_url: /home/tmp/clpla/data/FGADR/Seg-set/
+
+Manager:
+  experiment: FundusSegmentation_CMDatasets
+  ^run: Unet
+  ^save_point: /usagers/clpla/Projects/runs
+  ^gpu: 0
+  ^max_saved_model: 1
+  ^num_workers: 16 # Workers used for parallel data loading
+  ^dist_backend: nccl
+  ^seed: 1234
+  ^tracking_uri: http://localhost:5010
+  ^artifact_uri: sftp://clement@m3202-10.demdgi.polymtl.ca/home/clement/Documents/Clement/runs/server/artifact
+  grad_scaling: False
+  amp: False
+  ^experimental_dataloader: True
+
+
+Preprocessing:
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  random_crop: True
+  crop_size: [512, 512]
+
+Validation:
+  ^size: 0.10
+  ^log_interval: 150
+
+Training:
+  batch_size: 18
+  ignore_index: -100
+  contrastive_pretraining: False
+  iterations: 10000
+  MultiDataset:
+    trace_warm_up: 250
+    initial_model_path: /usagers/clpla/Projects/runs/FundusSegmentation_MultiDatasets/IDRID-Unet/trained_model/27107dec8eb049cab730a89c1c334ffb/
+
+Loss:
+  type: MultiDatasetCrossEntropy
+  fusion: mean
+  params_loss*:
+    MultiDatasetCrossEntropy*:
+      mcb: True
+      weighted: True
+      smooth: 0.1
+      alpha: 0.00001
+      criterion: CustomCrossEntropy
+
+Optimizer:
+  solver: AdamW
+  params_solver*:
+    lr: 0.0001
+    weight_decay: 0.00001
+
+Learning_rate_scheduler:
+  update_type: on_epoch
+  scheduler: CosineAnnealingLR
+  params_scheduler*:
+    eta_min: 0.0000001
+    T_max: 10000
+    verbose: False
+
+Network:
+  architecture: MultiDatasetUnet
+  n_classes: 4
+  synchronized_batch_norm: True
+  pretrained: True
+  cm_heads: 3

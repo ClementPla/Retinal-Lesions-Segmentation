@@ -3,8 +3,6 @@
 #
 #SBATCH --job-name=FundusSegmentation
 #SBATCH --output=log_task.txt
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=clement.playout@polymtl.ca
 #SBATCH --gres=gpu:a6000:1
 #SBATCH --partition=gpu
 
@@ -17,6 +15,6 @@ module load anaconda3
 
 source activate ~/.conda/envs/torch18
 
-python main.py --config config_contrastive.yaml --models Contrastive_Unet
+python main.py --config config.yaml
 
 kill $pid

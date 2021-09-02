@@ -111,18 +111,3 @@ def contrastive_loss_from_batch(model, imgs, gts, loss_type=ContrastiveLoss.SING
     return loss / b
 
 
-if __name__ == '__main__':
-    import sys
-    from icecream import ic
-    sys.path.append('../')
-    from networks.contrastive_unet import ContrastiveUnet
-    model = ContrastiveUnet(classes=4)
-
-    imgs = torch.rand(4, 3, 64, 64)
-    gts = torch.rand(4, 4, 64, 64)*4
-    c = dict(size=[64, 64], tau=0.07)
-
-    l = contrastive_loss_from_batch(model, imgs, gts, loss_type=ContrastiveLoss.SINGLE_IMAGE, **c)
-    ic(l)
-
-

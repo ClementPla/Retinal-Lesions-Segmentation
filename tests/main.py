@@ -23,7 +23,7 @@ if __name__ == '__main__':
         config['Network']['architecture'] = m
         train_set = Dataset.IDRID | Dataset.MESSIDOR
         config['Manager']['run'] = '%s-%s' % (train_set.str_name, m)
-        experiment = RetinExp(config, DA_level=DA.COLOR,
+        experiment = RetinExp(config, da_level=DA.COLOR,
                               train_sets=train_set,
                               test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
                               cache=cache)

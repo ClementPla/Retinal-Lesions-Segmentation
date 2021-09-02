@@ -8,6 +8,7 @@ Dataset:
   img_kaggle_url: /home/tmp/clpla/data/eyepacs/
   ^mask_kaggle_url: /home/tmp/clpla/data/segmentation/teacher_learning_eyepacs/
   ^recursive_loading: True
+  augmentation_factor: 5
 
 Test:
   img_idrid_url: /home/tmp/clpla/data/idrid/A. Segmentation/1. Original Images/b. Testing Set/
@@ -16,6 +17,7 @@ Test:
   ^mask_retles_url: /home/tmp/clpla/data/retinal-lesions-v20191227/segmentation/
   img_ddr_url: /home/tmp/clpla/data/segmentation/DDR/image/
   ^mask_ddr_url: /home/tmp/clpla/data/segmentation/DDR/label/
+
 Manager:
   experiment: FundusSegmentation_HyperoptTuning
   run: Unet
@@ -37,40 +39,39 @@ Preprocessing:
   crop_size: [512, 512]
 
 Validation:
-  size: 0.05
-  ^log_interval: 3000
+  size: 0.10
+  ^log_interval: 50
 
 Training:
-  epochs: 50
   batch_size: 24
   ignore_index: -100
   contrastive_pretraining: False
+  iterations: 10000
 
 Loss:
-  type: Dice
+  type: NLL
   fusion: mean
   params_loss*:
-    Dice*:
-      eps: 1
-      mode: multilabel
-      smooth: 0.5
+    MultiLabelSoftBinaryCrossEntropy*:
+      smooth_factor: 0.1
+      mcb: True
 
 Optimizer:
   solver: Adam
   params_solver*:
-    lr: 0.01
+    lr: 0.000001
     weight_decay: 0.00001
 
 Learning_rate_scheduler:
   update_type: on_epoch
   scheduler: CosineAnnealingLR
   params_scheduler*:
-    eta_min: 0.00001
-    T_max: 50
+    eta_min: 0.00000001
+    T_max: 10000
     verbose: False
 
 Network:
   architecture: Unet
-  n_classes: 4
+  n_classes: 5
   synchronized_batch_norm: True
-  pretrained: False
+  pretrained: True

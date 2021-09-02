@@ -53,6 +53,37 @@ class Dataset(Flag):
         else:
             return "_%s" % name.lower()
 
+    @property
+    def length(cls):
+        name = cls.name
+        if isinstance(name, list):
+            return len(name)
+        else:
+            return 1
+
+
+class Lesions(Flag):
+    COTTON_WOOL_SPOT = auto()
+    EXUDATES = auto()
+    HEMORRHAGES = auto()
+    MICROANEURYSMS = auto()
+
+    @property
+    def name(cls):
+        name = super(Lesions, cls).name
+        if name:
+            return name
+        else:
+            return [flag.name for flag in Lesions if flag in cls]
+
+    @property
+    def length(cls):
+        name = cls.name
+        if isinstance(name, list):
+            return len(name)
+        else:
+            return 1
+
 
 DA_FUNCTIONS = {DA.NONE: [],
                 DA.GEOMETRIC: [A.HorizontalFlip(p=0.5),

@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 #
-#SBATCH --job-name=FundusSegmentation-DA
+#SBATCH --job-name=FundusSegmentation
 #SBATCH --output=log_task.txt
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=clement.playout@polymtl.ca
 #SBATCH --gres=gpu:a6000:1
 #SBATCH --partition=gpu
 
@@ -17,6 +15,6 @@ module load anaconda3
 
 source activate ~/.conda/envs/torch18
 
-python main.py --config config/config.yaml --models Unet
+python main.py --config config.yaml --models Original-Unet --run_name IDRID
 
 kill $pid

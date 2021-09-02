@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('../')
+sys.path.append('../../')
 from experiment import RetinExp, DA, Dataset, ContrastiveLoss
 from nntools.utils import Config
 import argparse
@@ -23,13 +23,13 @@ if __name__ == '__main__':
         config['Network']['architecture'] = m
         experiment = RetinExp(config, train_sets=Dataset.IDRID | Dataset.MESSIDOR | Dataset.FGADR,
                               contrastive_loss=ContrastiveLoss.SINGLE_IMAGE,
-                              DA_level=DA.GEOMETRIC,
+                              da_level=DA.GEOMETRIC,
                               test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
                               cache=True)
         experiment.start()
 
         experiment = RetinExp(config, train_sets=Dataset.IDRID | Dataset.MESSIDOR | Dataset.FGADR,
-                              DA_level=DA.GEOMETRIC,
+                              da_level=DA.GEOMETRIC,
                               contrastive_loss=ContrastiveLoss.CROSS_IMAGES,
                               test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR,
                               cache=True)

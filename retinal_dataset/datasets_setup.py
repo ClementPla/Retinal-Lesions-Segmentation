@@ -7,67 +7,76 @@ import nntools.dataset as D
 import numpy as np
 import torch
 
-from scripts.utils import Dataset
+from tools.utils import Dataset, Lesions
 
 
 @D.nntools_wrapper
-def process_masks(Exudates, Microaneurysms, Hemorrhages, Cotton_Wool_Spot):
-    mask = np.stack((Cotton_Wool_Spot > 0, Exudates > 0, Hemorrhages > 0, Microaneurysms > 0), 2)
-    return {'mask': mask.astype(np.uint8)}
+def process_masks(Exudates=None, Microaneurysms=None, Hemorrhages=None, Cotton_Wool_Spot=None):
+    stacks = []
+
+    def add_to_stack(*args):
+        for arg in args:
+            if arg is not None:
+                stacks.append(arg > 0)
+        return np.stack(tuple(stacks), 2)
+
+    return {'mask': add_to_stack(Cotton_Wool_Spot, Exudates, Hemorrhages, Microaneurysms).astype(np.uint8)}
 
 
 @D.nntools_wrapper
-def process_masks_kaggle(Exudates, Microaneurysms, Hemorrhages, Cotton_Wool_Spot):
-    mask = np.stack((Cotton_Wool_Spot > 127, Exudates > 127, Hemorrhages > 127, Microaneurysms > 127), 2)
-    return {'mask': mask.astype(np.uint8)}
+def process_masks_kaggle(Exudates=None, Microaneurysms=None, Hemorrhages=None, Cotton_Wool_Spot=None):
+    stacks = []
+
+    def add_to_stack(*args):
+        for arg in args:
+            if arg is not None:
+                stacks.append(arg > 127)
+        return np.stack(tuple(stacks), 2)
+
+    return {'mask': add_to_stack(Cotton_Wool_Spot, Exudates, Hemorrhages, Microaneurysms).astype(np.uint8)}
 
 
 @D.nntools_wrapper
-def autocrop(image, mask):
+def autocrop(image, mask=None):
     blur = 5
     threshold = 10
     threshold_img = cv2.blur(image, (blur, blur), borderType=cv2.BORDER_REPLICATE)
     if threshold_img.ndim == 3:
         threshold_img = np.mean(threshold_img, axis=2)
     not_null_pixels = np.nonzero(threshold_img > threshold)
+
     x_range = (np.min(not_null_pixels[1]), np.max(not_null_pixels[1]))
     y_range = (np.min(not_null_pixels[0]), np.max(not_null_pixels[0]))
-    d = {'image': image[y_range[0]:y_range[1], x_range[0]:x_range[1]],
-         'mask': mask[y_range[0]:y_range[1], x_range[0]:x_range[1]]}
+    d = {'image': image[y_range[0]:y_range[1], x_range[0]:x_range[1]]}
+    if mask is not None:
+        d['mask'] = mask[y_range[0]:y_range[1], x_range[0]:x_range[1]]
     return d
 
 
-@D.nntools_wrapper
-def autocrop_image(image):
-    blur = 5
-    threshold = 10
-    img = cv2.blur(image, (blur, blur), borderType=cv2.BORDER_REPLICATE)
-    if img.ndim == 3:
-        img = np.mean(img, axis=2)
-    not_null_pixels = np.nonzero(img > threshold)
-    try:
-        x_range = (np.min(not_null_pixels[1]), np.max(not_null_pixels[1]))
-        y_range = (np.min(not_null_pixels[0]), np.max(not_null_pixels[0]))
-        d = {'image': image[y_range[0]:y_range[1], x_range[0]:x_range[1]]}
-        return d
-    except ValueError:
-        return {'image': image}
+def get_masks_paths(ex, ctw, he, ma, labels):
+    masks = {}
+    if Lesions.EXUDATES in labels:
+        masks['Exudates'] = ex
+    if Lesions.COTTON_WOOL_SPOT in labels:
+        masks['Cotton_Wool_Spot'] = ctw
+    if Lesions.HEMORRHAGES in labels:
+        masks['Hemorrhages'] = he
+    if Lesions.MICROANEURYSMS in labels:
+        masks['Microaneurysms'] = ma
+    return masks
 
 
-def sort_func_idrid(x):
-    return '_'.join(x.split('.')[0].split('_')[:2])
-
-
-def get_idrid_dataset(root_img, root_mask, input_shape=(1024, 1024)):
+def get_idrid_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, '1. Microaneurysms/')
     he = os.path.join(root_mask, '2. Haemorrhages/')
     ex = os.path.join(root_mask, '3. Hard Exudates/')
-    se = os.path.join(root_mask, '4. Soft Exudates/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se}
+    ctw = os.path.join(root_mask, '4. Soft Exudates/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
+
+    def sort_func_idrid(x):
+        return '_'.join(x.split('.')[0].split('_')[:2])
+
     segmentDataset = D.SegmentationDataset(root_img, masks, input_shape, filling_strategy=nt.NN_FILL_UPSAMPLE,
                                            keep_size_ratio=True,
                                            extract_image_id_function=sort_func_idrid)
@@ -76,7 +85,8 @@ def get_idrid_dataset(root_img, root_mask, input_shape=(1024, 1024)):
     << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1], border_mode=cv2.BORDER_CONSTANT,
                      value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.IDRID
+    segmentDataset.id = Dataset.IDRID
+    segmentDataset.tag = {'Dataset': Dataset.IDRID.value}
     return segmentDataset
 
 
@@ -84,47 +94,43 @@ def get_kaggle_dataset(root_img, input_shape):
     input_shape = tuple(input_shape)
     segmentDataset = D.SegmentationDataset(root_img, shape=input_shape, keep_size_ratio=True)
     composer = D.Composition()
-    composer << autocrop_image << A.LongestMaxSize(max_size=max(input_shape), always_apply=True)
+    composer << autocrop << A.LongestMaxSize(max_size=max(input_shape), always_apply=True)
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
     return segmentDataset
 
 
-def get_kaggle_segmented_dataset(root_img, root_mask, input_shape):
+def get_kaggle_segmented_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, 'Microaneurysms/')
     he = os.path.join(root_mask, 'Hemorrhages/')
     ex = os.path.join(root_mask, 'Exudates/')
-    se = os.path.join(root_mask, 'Cotton_Wool_Spot/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se}
+    ctw = os.path.join(root_mask, 'Cotton_Wool_Spot/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
+
     max_shape = (max(input_shape), max(input_shape))
     segmentDataset = D.SegmentationDataset(root_img, masks, max_shape,
                                            keep_size_ratio=True,
                                            filling_strategy=nt.NN_FILL_UPSAMPLE)
     composer = D.Composition()
-    composer << autocrop_image << A.LongestMaxSize(max_size=max(input_shape), always_apply=True)
+    composer << autocrop << A.LongestMaxSize(max_size=max(input_shape), always_apply=True)
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     composer << process_masks_kaggle
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.KAGGLE_TEACHER
+    segmentDataset.id = Dataset.KAGGLE_TEACHER
+    segmentDataset.tag = {'Dataset': Dataset.KAGGLE_TEACHER.value}
     return segmentDataset
 
 
-def get_messidor_dataset(root_img, root_mask, input_shape=(1024, 1024)):
+def get_messidor_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, 'Red/Microaneurysms/')
     he = os.path.join(root_mask, 'Red/Hemorrhages/')
     ex = os.path.join(root_mask, 'Bright/Exudates/')
-    se = os.path.join(root_mask, 'Bright/Cotton Wool Spots/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se}
+    ctw = os.path.join(root_mask, 'Bright/Cotton Wool Spots/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
 
     max_shape = (max(input_shape), max(input_shape))
     segmentDataset = D.SegmentationDataset(root_img, masks, input_shape,
@@ -137,22 +143,18 @@ def get_messidor_dataset(root_img, root_mask, input_shape=(1024, 1024)):
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.MESSIDOR
+    segmentDataset.id = Dataset.MESSIDOR
+    segmentDataset.tag = {'Dataset': Dataset.MESSIDOR.value}
     return segmentDataset
 
 
-def get_fgadr_dataset(root_img, root_mask, input_shape=(1024, 1024)):
+def get_fgadr_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, 'Microaneurysms_Masks/')
     he = os.path.join(root_mask, 'Hemohedge_Masks/')
     ex = os.path.join(root_mask, 'HardExudate_Masks/')
-    se = os.path.join(root_mask, 'SoftExudate_Masks/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se,
-             }
-
+    ctw = os.path.join(root_mask, 'SoftExudate_Masks/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
     max_shape = (max(input_shape), max(input_shape))
     segmentDataset = D.SegmentationDataset(root_img, masks, input_shape,
                                            keep_size_ratio=True,
@@ -164,20 +166,18 @@ def get_fgadr_dataset(root_img, root_mask, input_shape=(1024, 1024)):
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.FGADR
+    segmentDataset.id = Dataset.FGADR
+    segmentDataset.tag = {'Dataset': Dataset.FGADR.value}
     return segmentDataset
 
 
-def get_retlesions_dataset(root_img, root_mask, input_shape=(1024, 1024)):
+def get_retlesions_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, 'microaneurysm/')
     he = os.path.join(root_mask, 'retinal_hemorrhage/')
     ex = os.path.join(root_mask, 'hard_exudate/')
-    se = os.path.join(root_mask, 'cotton_wool_spots/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se}
+    ctw = os.path.join(root_mask, 'cotton_wool_spots/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
 
     max_shape = (max(input_shape), max(input_shape))
     segmentDataset = D.SegmentationDataset(root_img, masks, input_shape,
@@ -190,20 +190,18 @@ def get_retlesions_dataset(root_img, root_mask, input_shape=(1024, 1024)):
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.RETINAL_LESIONS
+    segmentDataset.id = Dataset.RETINAL_LESIONS
+    segmentDataset.tag = {'Dataset': Dataset.RETINAL_LESIONS.value}
     return segmentDataset
 
 
-def get_DDR_dataset(root_img, root_mask, input_shape=(1024, 1024)):
+def get_DDR_dataset(root_img, root_mask, input_shape, labels):
     input_shape = tuple(input_shape)
     ma = os.path.join(root_mask, 'MA/')
     he = os.path.join(root_mask, 'HE/')
     ex = os.path.join(root_mask, 'EX/')
-    se = os.path.join(root_mask, 'SE/')
-    masks = {'Exudates': ex,
-             'Microaneurysms': ma,
-             'Hemorrhages': he,
-             'Cotton_Wool_Spot': se}
+    ctw = os.path.join(root_mask, 'SE/')
+    masks = get_masks_paths(ex, ctw, he, ma, labels)
 
     max_shape = (max(input_shape), max(input_shape))
     segmentDataset = D.SegmentationDataset(root_img, masks, input_shape,
@@ -216,7 +214,8 @@ def get_DDR_dataset(root_img, root_mask, input_shape=(1024, 1024)):
     composer << A.PadIfNeeded(min_height=input_shape[0], min_width=input_shape[1],
                               border_mode=cv2.BORDER_CONSTANT, value=0, mask_value=0, always_apply=True)
     segmentDataset.set_composition(composer)
-    segmentDataset.tag = Dataset.DDR
+    segmentDataset.id = Dataset.DDR
+    segmentDataset.tag = {'Dataset': Dataset.DDR.value}
     return segmentDataset
 
 
@@ -231,7 +230,8 @@ def split_dataset(dataset, ratio_validation, seed):
         return dataset, None
 
 
-def get_datasets(roots_idrid=(None, None),
+def get_datasets(labels,
+                 roots_idrid=(None, None),
                  roots_messidor=(None, None),
                  roots_fgadr=(None, None),
                  root_retlesion=(None, None),
@@ -248,7 +248,7 @@ def get_datasets(roots_idrid=(None, None),
 
     for r, func in roots:
         if all(r):
-            dataset = func(root_img=r[0], root_mask=r[1], input_shape=shape)
+            dataset = func(root_img=r[0], root_mask=r[1], input_shape=shape, labels=labels)
             train, val = split_dataset(dataset, split_ratio, seed)
             outputs['core'].append(train)
             if val is not None:
@@ -257,7 +257,7 @@ def get_datasets(roots_idrid=(None, None),
     return outputs
 
 
-def get_datasets_from_config(c, sets, seed=1234, shape=None, split_ratio=0):
+def get_datasets_from_config(c, sets, labels, seed=1234, shape=None, split_ratio=0):
     img_idrid_root = c.get('img_idrid_url', None) if Dataset.IDRID in sets else None
     mask_idrid_root = c.get('mask_idrid_url', None) if Dataset.IDRID in sets else None
 
@@ -287,6 +287,7 @@ def get_datasets_from_config(c, sets, seed=1234, shape=None, split_ratio=0):
                         root_ddr=(img_ddr_root, mask_ddr_root),
                         shape=shape,
                         split_ratio=split_ratio,
+                        labels=labels,
                         seed=seed)
 
 

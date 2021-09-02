@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('../')
+sys.path.append('../../')
 from experiment import RetinExp, DA, Dataset
 from nntools.utils import Config
 import argparse
@@ -25,7 +25,7 @@ if __name__ == '__main__':
             config['Manager']['run'] = '%s-DA: %s' % (m, d.name)
             config['Network']['architecture'] = m
             experiment = RetinExp(config, train_sets=Dataset.IDRID | Dataset.MESSIDOR,
-                                  DA_level=d,
+                                  da_level=d,
                                   test_sets=Dataset.RETINAL_LESIONS | Dataset.IDRID | Dataset.DDR | Dataset.FGADR,
                                   cache=True)
             experiment.start()

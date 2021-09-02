@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 #
-#SBATCH --job-name=FundusSegmentation
+#SBATCH --job-name=FundusSegmentation-DA
 #SBATCH --output=log_task.txt
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=clement.playout@polymtl.ca
 #SBATCH --gres=gpu:a6000:1
 #SBATCH --partition=gpu
 
@@ -17,6 +15,6 @@ module load anaconda3
 
 source activate ~/.conda/envs/torch18
 
-python main.py --config config/config_idrid_messidor_kaggle.yaml --models Unet --run_name IDRID_MESSIDOR
+python main.py --config config/config.yaml --models Unet
 
 kill $pid
